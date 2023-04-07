@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         
         http.csrf().disable().cors().configurationSource(request -> {
             CorsConfiguration configuration = new CorsConfiguration();
-            configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "https://effervescent-belekoy-493ea2.netlify.app/", "https://fanciful-kheer-164dc7.netlify.app/"));
+            configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "https://moonlit-melomakarona-c885fc.netlify.app/"));
             configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
             configuration.addAllowedHeader("*");
             configuration.setAllowCredentials(true);
