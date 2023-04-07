@@ -2,16 +2,11 @@ package com.socialnetwork.controller;
 
 import com.socialnetwork.dto.ChatDto;
 import com.socialnetwork.dto.MessageDto;
-import com.socialnetwork.model.Chat;
 import com.socialnetwork.model.ChatUser;
 import com.socialnetwork.model.Friend;
-import com.socialnetwork.model.Message;
 import com.socialnetwork.service.IChatService;
 import com.socialnetwork.service.IMessageService;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

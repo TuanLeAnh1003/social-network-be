@@ -5,7 +5,6 @@ import com.socialnetwork.model.User;
 import lombok.Data;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 @Data
 public class MessageDto implements Comparable<MessageDto> {

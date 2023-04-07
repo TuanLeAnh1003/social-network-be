@@ -2,32 +2,27 @@ package com.socialnetwork.controller;
 
 import com.socialnetwork.dto.MessageDto;
 import com.socialnetwork.dto.MessageSendDto;
-import com.socialnetwork.model.Chat;
 import com.socialnetwork.model.ChatUser;
 import com.socialnetwork.model.Message;
-import com.socialnetwork.model.User;
-import com.socialnetwork.repository.ChatRepo;
 import com.socialnetwork.repository.ChatUserRepo;
 import com.socialnetwork.service.IChatService;
 import com.socialnetwork.service.IMessageService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-//  @CrossOrigin(origins= {"*"}, maxAge = 4800, allowCredentials = "false" )
 @RestController
 @RequiredArgsConstructor
-@Slf4j
+@CrossOrigin("*")
 public class ChatController {
 	private final IMessageService messageService;
 	private final IChatService chatService;

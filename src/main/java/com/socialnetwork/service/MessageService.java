@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-import java.sql.Timestamp;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -100,16 +98,6 @@ public class MessageService implements IMessageService {
 
             return messageDtos;
         } else {
-            // log.info("call when user and friend dont have chat before");
-            // Chat newChat1 = new Chat();
-            // Chat newChat2 = new Chat();
-
-            // newChat1.setUserId(userId);
-            // Long id = chatService.save(newChat1).getId();
-
-            // newChat2.setUserId(userId);
-            // newChat2.setId(id);
-            // chatService.save(newChat2);
 
             return messageDtos;
         }

@@ -11,13 +11,11 @@ import com.socialnetwork.model.Like;
 import com.socialnetwork.service.ILikeService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
 @CrossOrigin("*")
-@Slf4j
 public class LikeController {
     private final ILikeService likeService;
 

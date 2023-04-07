@@ -7,7 +7,6 @@ import com.socialnetwork.model.User;
 import com.socialnetwork.repository.PostRepo;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional
-@Slf4j
 public class PostService implements IPostService {
     private final IUserService userService;
     private final PostRepo postRepo;

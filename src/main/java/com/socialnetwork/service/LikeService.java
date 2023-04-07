@@ -1,7 +1,6 @@
 package com.socialnetwork.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -12,12 +11,10 @@ import com.socialnetwork.model.Like;
 import com.socialnetwork.repository.LikeRepo;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
-@Slf4j
 public class LikeService implements ILikeService {
     private final LikeRepo likeRepo;
 
