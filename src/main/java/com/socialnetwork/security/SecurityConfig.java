@@ -7,11 +7,13 @@ import java.util.Arrays;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -43,12 +45,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             configuration.setAllowCredentials(true);
             return configuration;
         }).and()
-        // .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-        // .authorizeHttpRequests().antMatchers("/api/login/**", "/api/token/refresh/**", "/api/user/save/**","/socket/**", "/socket/**").permitAll().and()
-        //         .authorizeHttpRequests().antMatchers(HttpMethod.GET, "/api/users/**").hasAnyAuthority("ROLE_USER").and()
-        //         .authorizeHttpRequests().antMatchers(HttpMethod.GET, "/api/posts/**").hasAnyAuthority("ROLE_USER").and()
-        // .authorizeHttpRequests().anyRequest().authenticated().and()
-        .authorizeRequests().anyRequest().permitAll().and()
+        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+        .authorizeHttpRequests().antMatchers("/api/login/**", "/api/token/refresh/**", "/api/user/save/**","/socket/**", "/socket/**").permitAll().and()
+                .authorizeHttpRequests().antMatchers(HttpMethod.GET, "/api/users/**").hasAnyAuthority("ROLE_USER").and()
+                .authorizeHttpRequests().antMatchers(HttpMethod.GET, "/api/posts/**").hasAnyAuthority("ROLE_USER").and()
+        .authorizeHttpRequests().anyRequest().authenticated().and()
+        // .authorizeRequests().anyRequest().permitAll().and()
         .addFilter(customAuthenticationFilter)
         .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
