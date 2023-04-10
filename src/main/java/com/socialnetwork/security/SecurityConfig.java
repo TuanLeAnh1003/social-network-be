@@ -27,6 +27,7 @@ import org.springframework.web.cors.CorsConfiguration;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
@@ -34,25 +35,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
+        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(
+                authenticationManagerBean());
+                CustomAuthorizationFilter customAuthorizationFilter = new CustomAuthorizationFilter();
         customAuthenticationFilter.setFilterProcessesUrl("/api/login");
-        
+
         http.csrf().disable().cors().configurationSource(request -> {
             CorsConfiguration configuration = new CorsConfiguration();
-            configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "https://moonlit-melomakarona-c885fc.netlify.app/"));
+            configuration.setAllowedOrigins(
+                    Arrays.asList("http://localhost:4200", "https://moonlit-melomakarona-c885fc.netlify.app/"));
             configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
             configuration.addAllowedHeader("*");
             configuration.setAllowCredentials(true);
             return configuration;
         }).and()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-        .authorizeHttpRequests().antMatchers("/api/login/**", "/api/token/refresh/**", "/api/user/save/**","/socket/**", "/socket/**").permitAll().and()
-                .authorizeHttpRequests().antMatchers(HttpMethod.GET, "/api/users/**").hasAnyAuthority("ROLE_USER").and()
-                .authorizeHttpRequests().antMatchers(HttpMethod.GET, "/api/posts/**").hasAnyAuthority("ROLE_USER").and()
-        .authorizeHttpRequests().anyRequest().authenticated().and()
-        // .authorizeRequests().anyRequest().permitAll().and()
-        .addFilter(customAuthenticationFilter)
-        .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests()
+                .antMatchers("/api/login/**", "/api/token/refresh/**", "/api/user/save/**", "/socket/**", "/socket/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/users/**", "/api/posts", "/api/posts/**").hasAnyAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.POST, "/api/user/**", "/api/user/**", "/api/chat/**").hasAnyAuthority("ROLE_USER")
+                .anyRequest().authenticated().and()
+                // .authorizeRequests().anyRequest().permitAll().and()
+                .addFilter(customAuthenticationFilter)
+                .addFilterBefore(customAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

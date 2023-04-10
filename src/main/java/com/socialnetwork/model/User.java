@@ -40,6 +40,10 @@ public class User {
     private Timestamp birthday;
     @Column(name = "gender")
     private String gender;
+    @JoinTable(name="user_role",
+            joinColumns={@JoinColumn(name="user_id")},
+            inverseJoinColumns={@JoinColumn(name="role_id")}
+    )
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
 }

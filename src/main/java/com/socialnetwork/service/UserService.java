@@ -2,8 +2,11 @@ package com.socialnetwork.service;
 
 import com.socialnetwork.model.Role;
 import com.socialnetwork.model.User;
+import com.socialnetwork.model.UserRole;
 import com.socialnetwork.repository.RoleRepo;
 import com.socialnetwork.repository.UserRepo;
+import com.socialnetwork.repository.UserRoleRepo;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,6 +31,7 @@ import java.util.Optional;
 public class UserService implements IUserService, UserDetailsService {
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
+    private final UserRoleRepo userRoleRepo;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -51,9 +55,23 @@ public class UserService implements IUserService, UserDetailsService {
 
     @Override
     public User saveUser(User user) {
+        List<Role> checkRole = roleRepo.findAll();
+        if (checkRole.size() == 0) {
+            Role newRoleUser = new Role();
+            newRoleUser.setId(Long.valueOf(1));
+            newRoleUser.setName("ROLE_USER");
+            roleRepo.save(newRoleUser);
+
+            Role newRoleAdmin = new Role();
+            newRoleAdmin.setId(Long.valueOf(2));
+            newRoleAdmin.setName("ROLE_ADMIN");
+            roleRepo.save(newRoleAdmin);
+        }
         log.info("Saving new user: {} to db", user.getUsername());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepo.save(user);
+        User newUser = userRepo.save(user);
+        addRoleToUser(newUser.getUsername(), "ROLE_USER");
+        return newUser;
     }
 
     @Override
@@ -68,7 +86,11 @@ public class UserService implements IUserService, UserDetailsService {
         User user = userRepo.findByUsername(username);
         Role role = roleRepo.findByName(roleName);
 
-        user.getRoles().add(role);
+        UserRole newUserRole = new UserRole();
+        newUserRole.setUserId(user.getId());
+        newUserRole.setRoleId(role.getId());
+
+        userRoleRepo.save(newUserRole);
     }
 
     @Override
